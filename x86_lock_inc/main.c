@@ -15,6 +15,7 @@ DWORD WINAPI incer(LPVOID param) {
     for(int i = 0; i < NbOfChanges; i++) {
         number++;
         //__asm inc number
+        //InterlockedIncrement(&number);
         //__asm lock inc number
     }
 }
@@ -27,9 +28,13 @@ DWORD WINAPI decer(LPVOID param) {
     for(int i = 0; i < NbOfChanges; i++) {
         number--;
         //__asm dec number
+        //InterlockedDecrement(&number);
         //__asm lock dec number
     }
 }
+
+// Interlocked Win32 API:
+// https://msdn.microsoft.com/en-us/library/windows/desktop/ms684122(v=vs.85).aspx
 
 int main(void) {
     HANDLE hCurrProc;
@@ -55,9 +60,7 @@ int main(void) {
         CloseHandle(hThreads[1]);
         if(number) {
             count++;
-            printf("%-5d : %d\t", i, number);
-            if(count % 4 == 0)
-                printf("\n");
+            putchar('.');
         }
     }
     printf("\ncount = %d\n", count);
