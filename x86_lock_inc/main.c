@@ -8,6 +8,10 @@ const int NbOfTests      = 1000;
 volatile int NbOfChanges = 10000;
 
 DWORD WINAPI incer(LPVOID param) {
+    /*without volatile:
+     * if(NbOfChanges > 0)
+     *      number += NbOfChanges;
+     */
     for(int i = 0; i < NbOfChanges; i++) {
         number++;
         //__asm inc number
@@ -16,6 +20,10 @@ DWORD WINAPI incer(LPVOID param) {
 }
 
 DWORD WINAPI decer(LPVOID param) {
+    /*without volatile:
+     * if(NbOfChanges > 0)
+     *      number -= NbOfChanges;
+     */
     for(int i = 0; i < NbOfChanges; i++) {
         number--;
         //__asm dec number
